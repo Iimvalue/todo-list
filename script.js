@@ -38,11 +38,11 @@ function renderTasks() {
     if (task.completed) textSpan.classList.add("text-decoration-line-through");
 
     const deleteBtn = document.createElement("button");
-    deleteBtn.className = "btn";
-    deleteBtn.innerHTML = '<i class="bi bi-trash-fill text-danger"></i>';
+    deleteBtn.className = "btn btn-sm btn-danger";
+    deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
 
     const editBtn = document.createElement("button");
-    editBtn.className = "btn btn-sm ms-2";
+    editBtn.className = "btn btn-sm btn-primary ms-2";
     editBtn.innerHTML = '<i class="bi bi-pencil"></i>';
 
     const completeBtn = document.createElement("button");

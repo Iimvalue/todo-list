@@ -90,13 +90,13 @@ taskList.addEventListener("click", (e) => {
   const task = tasks.find((t) => t.id === id);
 
   if (e.target.closest(".btn-danger")) {    
-    if (confirm("هل أنت متأكد؟")) {
+    if (confirm("هل أنت متأكد من حذف هذه المهمة؟")) {
       tasks = tasks.filter((t) => t.id !== id);
       saveTasks();
       renderTasks();
     }
   } else if (e.target.closest(".btn-primary")) {
-    const newText = prompt("أدخل النص الجديد", task.text);
+    const newText = prompt("أكتب العنوان الجديد للمهمة", task.text);
     if (newText !== null && newText.trim() !== "") {
       task.text = newText.trim();
       saveTasks();

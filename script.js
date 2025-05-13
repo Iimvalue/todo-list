@@ -3,6 +3,15 @@ const taskInput = document.getElementById("task-input");
 const addBtn = document.getElementById("add-btn");
 const filterAllBtn = document.getElementById("filter-all");
 const filterCompletedBtn = document.getElementById("filter-completed");
+const deleteAllBtn = document.getElementById("delete-all-btn");
+
+deleteAllBtn.addEventListener("click", () => {
+  if (confirm("هل أنت متأكد من حذف جميع المهام؟")) {
+    tasks = [];
+    saveTasks();
+    showTasks();
+  }
+});
 
 let tasks = [];
 let filter = "all";
@@ -16,14 +25,14 @@ function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-function renderTasks() {
+function showTasks() {
   taskList.innerHTML = "";
   const filteredTasks =
     filter === "all" ? tasks : tasks.filter((task) => task.completed);
   if (filteredTasks.length === 0) {
-    taskList.innerHTML =
-      '<li class="list-group-item text-center">لا توجد مهام</li>';
-    taskList.style = "width:10%";
+    taskList.innerHTML = `<li class="list-group-item text-center" style="width:90%;">${
+      filter === "all" ? "لا توجد مهام" : "لا توجد مهام منجزة"
+    }</li>`;
     return;
   }
   filteredTasks.forEach((task) => {
@@ -63,25 +72,24 @@ addBtn.addEventListener("click", () => {
     const newTask = { id: Date.now(), text, completed: false };
     tasks.push(newTask);
     saveTasks();
-    renderTasks();
+    showTasks();
     taskInput.value = "";
   }
 });
 
 filterAllBtn.addEventListener("click", () => {
   filter = "all";
-  renderTasks();
+  showTasks();
   filterAllBtn.classList.add("active");
   filterCompletedBtn.classList.remove("active");
 });
 
 filterCompletedBtn.addEventListener("click", () => {
   filter = "completed";
-  renderTasks();
+  showTasks();
   filterCompletedBtn.classList.add("active");
   filterAllBtn.classList.remove("active");
 });
-
 
 taskList.addEventListener("click", (e) => {
   const li = e.target.closest(".task-item");
@@ -89,25 +97,25 @@ taskList.addEventListener("click", (e) => {
   const id = parseInt(li.dataset.id);
   const task = tasks.find((task) => task.id === id);
 
-  if (e.target.closest(".btn-danger")) {    
+  if (e.target.closest(".btn-danger")) {
     if (confirm("هل أنت متأكد من حذف هذه المهمة؟")) {
       tasks = tasks.filter((task) => task.id !== id);
       saveTasks();
-      renderTasks();
+      showTasks();
     }
   } else if (e.target.closest(".btn-primary")) {
     const newText = prompt("أكتب العنوان الجديد للمهمة", task.text);
     if (newText !== null && newText.trim() !== "") {
       task.text = newText.trim();
       saveTasks();
-      renderTasks();
+      showTasks();
     }
   } else if (e.target.closest(".btn-success")) {
     task.completed = !task.completed;
     saveTasks();
-    renderTasks();
+    showTasks();
   }
 });
 
 loadTasks();
-renderTasks();
+showTasks();

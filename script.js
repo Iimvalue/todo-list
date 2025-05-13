@@ -87,11 +87,11 @@ taskList.addEventListener("click", (e) => {
   const li = e.target.closest(".task-item");
   if (!li) return;
   const id = parseInt(li.dataset.id);
-  const task = tasks.find((t) => t.id === id);
+  const task = tasks.find((task) => task.id === id);
 
   if (e.target.closest(".btn-danger")) {    
     if (confirm("هل أنت متأكد من حذف هذه المهمة؟")) {
-      tasks = tasks.filter((t) => t.id !== id);
+      tasks = tasks.filter((task) => task.id !== id);
       saveTasks();
       renderTasks();
     }
